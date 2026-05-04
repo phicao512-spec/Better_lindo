@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { lessons, Word } from "../data/lessons";
 import { useStore } from "../store/useStore";
 import { Button } from "../components/ui/Button";
-import { X, Clock, Trophy, AlertTriangle } from "lucide-react";
+import { X, Clock, Trophy, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 import confetti from "canvas-confetti";
 
 export function FinalExam() {
@@ -156,8 +156,8 @@ export function FinalExam() {
     const percentage = Math.round((score / testWords.length) * 100);
     
     return (
-      <div className="flex flex-col h-[100dvh] bg-slate-900 text-white p-6">
-        <div className="flex-1 flex flex-col items-center justify-center text-center max-w-2xl mx-auto w-full">
+      <div className="flex flex-col h-[100dvh] bg-slate-900 text-white p-6 overflow-y-auto custom-scrollbar">
+        <div className="flex-1 flex flex-col items-center text-center max-w-2xl mx-auto w-full py-12">
           <Trophy size={80} className={`mb-6 ${percentage >= 80 ? 'text-amber-400' : 'text-slate-500'}`} />
           <h2 className="text-5xl font-black mb-2">Báo cáo Kết quả</h2>
           <p className="text-slate-400 font-bold text-xl mb-12 uppercase tracking-widest">Kỳ thi cuối kì</p>
@@ -173,14 +173,59 @@ export function FinalExam() {
             </div>
           </div>
           
-          <div className="bg-slate-800 w-full p-6 rounded-2xl mb-8 border-2 border-slate-700 text-left">
+          <div className="bg-slate-800 w-full p-6 rounded-2xl mb-12 border-2 border-slate-700 text-left">
             <h3 className="font-bold text-amber-400 mb-2 flex items-center gap-2">
               <Trophy size={20} /> Kỷ lục cá nhân ({difficultyMatch === 'easy' ? 'Dễ' : difficultyMatch === 'medium' ? 'Trung bình' : 'Khó'}): <span className="text-white">{Math.max(highestExamScore[difficultyMatch] || 0, score)}/{testWords.length}</span>
             </h3>
             <p className="text-slate-400 text-sm">Hệ thống đã ghi nhận kết quả của bạn. Hãy tiếp tục luyện tập để cải thiện điểm số nhé!</p>
           </div>
 
-          <Button className="w-full text-lg" size="lg" onClick={() => setView('home')}>Trở về Trang chủ</Button>
+          {/* Detailed Review Section */}
+          <div className="w-full text-left mb-12">
+            <h3 className="text-2xl font-black text-white mb-6">Chi tiết bài làm</h3>
+            <div className="space-y-4">
+              {testWords.map((word, idx) => {
+                const userAnswer = userAnswers[idx];
+                const isCorrect = userAnswer === word.vi;
+                
+                return (
+                  <div key={idx} className={`p-5 rounded-2xl border-2 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all ${
+                    isCorrect 
+                      ? 'bg-emerald-900/20 border-emerald-800 hover:border-emerald-600' 
+                      : 'bg-rose-900/20 border-rose-800 hover:border-rose-600'
+                  }`}>
+                    <div>
+                      <div className="font-black text-2xl text-white mb-1">{word.en}</div>
+                      {word.type && <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{word.type}</div>}
+                      {!isCorrect && word.exampleEn && (
+                        <div className="text-sm text-slate-300 italic mt-2 border-l-2 border-slate-600 pl-3">
+                          "{word.exampleEn}"
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-col text-sm font-bold md:text-right gap-1 shrink-0">
+                      {isCorrect ? (
+                        <span className="text-emerald-400 flex items-center gap-1.5 md:justify-end">
+                          <CheckCircle size={18} /> {word.vi}
+                        </span>
+                      ) : (
+                        <>
+                          <span className="text-rose-400 line-through flex items-center gap-1.5 md:justify-end">
+                            <XCircle size={18} /> {userAnswer || 'Không trả lời'}
+                          </span>
+                          <span className="text-emerald-400 flex items-center gap-1.5 md:justify-end">
+                            <CheckCircle size={18} /> {word.vi}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <Button className="w-full text-xl py-6" size="lg" onClick={() => setView('home')}>Trở về Trang chủ</Button>
         </div>
       </div>
     );
