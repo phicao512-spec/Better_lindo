@@ -11,6 +11,12 @@ export function FinalExam() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
   
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
+
   // Parse difficulty from activeLessonId (e.g. 'easy_1')
   const difficultyMatch = activeLessonId?.split('_')[0] as 'easy' | 'medium' | 'hard' || 'medium';
   

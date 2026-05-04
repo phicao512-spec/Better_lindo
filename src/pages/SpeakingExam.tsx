@@ -64,6 +64,13 @@ export function SpeakingExam() {
     }
   }, [geminiApiKey]);
 
+  // Cleanup speech on unmount
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isProcessing]);

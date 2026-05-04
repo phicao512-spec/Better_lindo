@@ -14,6 +14,12 @@ export function AssessmentTest() {
   const [options, setOptions] = useState<string[]>([]);
   const [score, setScore] = useState(0);
 
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
+
   const allLessons = [...lessons, ...customLessons];
 
   useEffect(() => {

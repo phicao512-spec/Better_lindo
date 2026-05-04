@@ -10,6 +10,12 @@ export function Learn() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
+
   const allLessons = [...lessons, ...customLessons];
   const lesson = allLessons.find(l => l.id === activeLessonId);
 

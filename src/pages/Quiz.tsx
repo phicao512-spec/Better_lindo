@@ -12,6 +12,12 @@ export function Quiz() {
   const [isChecking, setIsChecking] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
   
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
+
   const allLessons = [...lessons, ...customLessons];
   const lesson = allLessons.find(l => l.id === activeLessonId);
 
