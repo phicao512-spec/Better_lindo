@@ -43,16 +43,16 @@ export function Notepad() {
       } bg-white/80 backdrop-blur-xl border-4 border-slate-900 rounded-[2.5rem] shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] flex flex-col`}
     >
       {/* Header */}
-      <div className={`px-6 flex items-center justify-between bg-indigo-50 rounded-t-[2.2rem] shrink-0 border-b-2 border-slate-900 ${isMinimized ? 'h-full border-b-0' : 'h-16'}`}>
-        <div className="flex items-center gap-3">
+      <div className={`px-6 flex items-center justify-between bg-indigo-50 rounded-t-[2.2rem] shrink-0 border-b-2 border-slate-900 relative ${isMinimized ? 'h-full border-b-0' : 'h-16'}`}>
+        <div className="flex items-center gap-3 z-10">
           <StickyNote size={20} className="text-indigo-600 shrink-0" />
-          <span className="font-black text-slate-900 uppercase tracking-tight whitespace-nowrap text-sm">Sổ tay</span>
         </div>
         
-        {!isMinimized && <span className="font-black text-slate-900 uppercase tracking-tight text-sm absolute left-1/2 -translate-x-1/2">Ghi chú</span>}
-        {isMinimized && <span className="font-black text-slate-900 uppercase tracking-tight text-sm">Ghi chú</span>}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <span className="font-black text-slate-900 uppercase tracking-tight text-sm">Sổ tay ghi chú</span>
+        </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 z-10">
           <button 
             onClick={() => setIsMinimized(!isMinimized)}
             className="p-1.5 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-slate-200"
