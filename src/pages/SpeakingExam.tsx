@@ -91,6 +91,7 @@ export function SpeakingExam() {
     const voices = window.speechSynthesis.getVoices();
     const engVoice = voices.find(v => v.lang.startsWith('en-') && (v.name.includes('Google') || v.name.includes('Natural')));
     if (engVoice) utterance.voice = engVoice;
+    window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   };
 

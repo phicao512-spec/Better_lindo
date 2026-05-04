@@ -41,6 +41,7 @@ export function Learn() {
   const playAudio = (text: string) => {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
+    window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   };
 
