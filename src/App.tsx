@@ -19,11 +19,11 @@ export default function App() {
   const showNav = ['home', 'profile', 'practice', 'create'].includes(currentView);
 
   return (
-    <div className="min-h-screen bg-[#F1F5F9] text-slate-900 font-sans selection:bg-indigo-200 antialiased overflow-x-hidden flex">
+    <div className="h-[100dvh] bg-[#F1F5F9] text-slate-900 font-sans selection:bg-indigo-200 antialiased overflow-hidden flex">
       {showNav && <Sidebar />}
       
-      <main className={`flex-1 relative flex flex-col min-h-screen ${showNav ? 'pb-24 md:pb-0' : ''}`}>
-        <div className="w-full h-full overflow-y-auto custom-scrollbar">
+      <main className={`flex-1 relative flex flex-col h-full overflow-y-auto custom-scrollbar ${showNav ? 'pb-24 md:pb-0' : ''}`}>
+        <div className="w-full h-full">
           {currentView === 'home' && <Home />}
           {currentView === 'learn' && <Learn />}
           {currentView === 'quiz' && <Quiz />}
