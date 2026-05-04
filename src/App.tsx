@@ -7,6 +7,10 @@ import { Practice } from './pages/Practice';
 import { Create } from './pages/Create';
 import { BottomNav } from './components/layout/BottomNav';
 import { Sidebar } from './components/layout/Sidebar';
+import { AssessmentTest } from './pages/AssessmentTest';
+import { FinalExam } from './pages/FinalExam';
+import { FillBlankExam } from './pages/FillBlankExam';
+import { StrictExam } from './pages/StrictExam';
 
 export default function App() {
   const { currentView } = useStore();
@@ -24,6 +28,10 @@ export default function App() {
           {currentView === 'profile' && <Profile />}
           {currentView === 'practice' && <Practice />}
           {currentView === 'create' && <Create />}
+          {currentView === 'assessment' && <AssessmentTest />}
+          {currentView === 'final-exam' && <FinalExam />}
+          {currentView === 'fill-blank-exam' && <FillBlankExam />}
+          {currentView === 'strict-exam' && <StrictExam />}
         </div>
         
         {showNav && <div className="md:hidden"><BottomNav /></div>}

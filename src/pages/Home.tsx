@@ -1,4 +1,4 @@
-import { Play, Check, Heart, Zap, Info } from "lucide-react";
+import { Play, Check, Heart, Zap, Info, Trophy, PenTool, Flame } from "lucide-react";
 import { lessons, Lesson } from "../data/lessons";
 import { useStore } from "../store/useStore";
 import { Button } from "../components/ui/Button";
@@ -75,7 +75,7 @@ export function Home() {
         </div>
       </div>
 
-      <div className="bg-indigo-600 border-4 border-slate-900 p-8 rounded-[2rem] mb-12 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] text-white relative overflow-hidden group">
+      <div className="bg-indigo-600 border-4 border-slate-900 p-8 rounded-[2rem] mb-8 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] text-white relative overflow-hidden group">
         <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full translate-x-32 translate-y-[-32px] opacity-20 group-hover:scale-110 transition-transform duration-500"></div>
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-xl">
@@ -94,6 +94,177 @@ export function Home() {
       </div>
 
       <div className="space-y-16">
+        {/* Final Exam Section */}
+        <section>
+          <div className="flex items-center gap-4 mb-10 px-4">
+            <div className="w-16 h-16 bg-amber-400 rounded-2xl border-4 border-slate-900 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+              <Trophy size={32} className="text-slate-900" />
+            </div>
+            <div>
+              <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter italic">Kỳ thi cuối kì</h2>
+              <p className="text-slate-500 font-bold">Đánh giá toàn diện kiến thức của bạn</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Easy Level */}
+            <div className="bg-emerald-50 border-4 border-slate-900 rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)]">
+              <h3 className="text-2xl font-black text-emerald-600 mb-2 uppercase text-center">Dễ</h3>
+              <p className="text-slate-600 font-bold text-sm text-center mb-6">30 câu • 10 phút • Từ vựng cơ bản</p>
+              <div className="space-y-3">
+                {[1, 2, 3].map((num) => (
+                  <button key={`easy_${num}`} onClick={() => setView('final-exam', `easy_${num}`)} className="w-full flex items-center justify-between p-4 bg-white border-2 border-slate-900 rounded-xl shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none transition-all">
+                    <span className="font-black text-slate-900">Đề số {num}</span>
+                    <Play size={20} className="text-emerald-500" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Medium Level */}
+            <div className="bg-amber-50 border-4 border-slate-900 rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)]">
+              <h3 className="text-2xl font-black text-amber-600 mb-2 uppercase text-center">Trung bình</h3>
+              <p className="text-slate-600 font-bold text-sm text-center mb-6">40 câu • 15 phút • Tổng hợp & IELTS</p>
+              <div className="space-y-3">
+                {[1, 2, 3].map((num) => (
+                  <button key={`medium_${num}`} onClick={() => setView('final-exam', `medium_${num}`)} className="w-full flex items-center justify-between p-4 bg-white border-2 border-slate-900 rounded-xl shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none transition-all">
+                    <span className="font-black text-slate-900">Đề số {num}</span>
+                    <Play size={20} className="text-amber-500" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Hard Level */}
+            <div className="bg-rose-50 border-4 border-slate-900 rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)]">
+              <h3 className="text-2xl font-black text-rose-600 mb-2 uppercase text-center">Khó</h3>
+              <p className="text-slate-600 font-bold text-sm text-center mb-6">50 câu • 20 phút • IELTS & Chuyên sâu</p>
+              <div className="space-y-3">
+                {[1, 2, 3].map((num) => (
+                  <button key={`hard_${num}`} onClick={() => setView('final-exam', `hard_${num}`)} className="w-full flex items-center justify-between p-4 bg-white border-2 border-slate-900 rounded-xl shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none transition-all">
+                    <span className="font-black text-slate-900">Đề số {num}</span>
+                    <Play size={20} className="text-rose-500" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Fill in the Blanks Exam Section */}
+        <section>
+          <div className="flex items-center gap-4 mb-10 px-4">
+            <div className="w-16 h-16 bg-emerald-400 rounded-2xl border-4 border-slate-900 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+              <PenTool size={32} className="text-slate-900" />
+            </div>
+            <div>
+              <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter italic">Kỳ thi Điền từ</h2>
+              <p className="text-slate-500 font-bold">Thử thách khả năng ghi nhớ chính tả từ vựng</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Easy Level */}
+            <div className="bg-emerald-50 border-4 border-slate-900 rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)]">
+              <h3 className="text-2xl font-black text-emerald-600 mb-2 uppercase text-center">Dễ</h3>
+              <p className="text-slate-600 font-bold text-sm text-center mb-6">15 câu • 10 phút • Từ vựng cơ bản</p>
+              <div className="space-y-3">
+                {[1, 2, 3].map((num) => (
+                  <button key={`fb_easy_${num}`} onClick={() => setView('fill-blank-exam', `easy_${num}`)} className="w-full flex items-center justify-between p-4 bg-white border-2 border-slate-900 rounded-xl shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none transition-all">
+                    <span className="font-black text-slate-900">Đề số {num}</span>
+                    <Play size={20} className="text-emerald-500" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Medium Level */}
+            <div className="bg-amber-50 border-4 border-slate-900 rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)]">
+              <h3 className="text-2xl font-black text-amber-600 mb-2 uppercase text-center">Trung bình</h3>
+              <p className="text-slate-600 font-bold text-sm text-center mb-6">20 câu • 15 phút • Tổng hợp & IELTS</p>
+              <div className="space-y-3">
+                {[1, 2, 3].map((num) => (
+                  <button key={`fb_medium_${num}`} onClick={() => setView('fill-blank-exam', `medium_${num}`)} className="w-full flex items-center justify-between p-4 bg-white border-2 border-slate-900 rounded-xl shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none transition-all">
+                    <span className="font-black text-slate-900">Đề số {num}</span>
+                    <Play size={20} className="text-amber-500" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Hard Level */}
+            <div className="bg-rose-50 border-4 border-slate-900 rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)]">
+              <h3 className="text-2xl font-black text-rose-600 mb-2 uppercase text-center">Khó</h3>
+              <p className="text-slate-600 font-bold text-sm text-center mb-6">30 câu • 20 phút • IELTS & Chuyên sâu</p>
+              <div className="space-y-3">
+                {[1, 2, 3].map((num) => (
+                  <button key={`fb_hard_${num}`} onClick={() => setView('fill-blank-exam', `hard_${num}`)} className="w-full flex items-center justify-between p-4 bg-white border-2 border-slate-900 rounded-xl shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none transition-all">
+                    <span className="font-black text-slate-900">Đề số {num}</span>
+                    <Play size={20} className="text-rose-500" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Strict Exam Section */}
+        <section>
+          <div className="flex items-center gap-4 mb-10 px-4">
+            <div className="w-16 h-16 bg-rose-500 rounded-2xl border-4 border-slate-900 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+              <Flame size={32} className="text-white" />
+            </div>
+            <div>
+              <h2 className="text-4xl font-black text-rose-600 uppercase tracking-tighter italic">Kỳ thi Khắc nghiệt</h2>
+              <p className="text-slate-500 font-bold">Thử thách dịch ngược (Việt → Anh) với áp lực thời gian</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Easy Level */}
+            <div className="bg-slate-900 border-4 border-slate-900 rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(225,29,72,0.5)]">
+              <h3 className="text-2xl font-black text-rose-400 mb-2 uppercase text-center">Dễ</h3>
+              <p className="text-slate-400 font-bold text-sm text-center mb-6">15 câu • 5 phút • Từ vựng cơ bản</p>
+              <div className="space-y-3">
+                {[1, 2, 3].map((num) => (
+                  <button key={`strict_easy_${num}`} onClick={() => setView('strict-exam', `easy_${num}`)} className="w-full flex items-center justify-between p-4 bg-slate-800 border-2 border-slate-700 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] hover:border-rose-500 hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none transition-all">
+                    <span className="font-black text-white">Thử thách {num}</span>
+                    <Play size={20} className="text-rose-500" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Medium Level */}
+            <div className="bg-slate-900 border-4 border-slate-900 rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(225,29,72,0.5)]">
+              <h3 className="text-2xl font-black text-rose-500 mb-2 uppercase text-center">Trung bình</h3>
+              <p className="text-slate-400 font-bold text-sm text-center mb-6">20 câu • 7 phút • Tổng hợp & IELTS</p>
+              <div className="space-y-3">
+                {[1, 2, 3].map((num) => (
+                  <button key={`strict_medium_${num}`} onClick={() => setView('strict-exam', `medium_${num}`)} className="w-full flex items-center justify-between p-4 bg-slate-800 border-2 border-slate-700 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] hover:border-rose-500 hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none transition-all">
+                    <span className="font-black text-white">Thử thách {num}</span>
+                    <Play size={20} className="text-rose-500" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Hard Level */}
+            <div className="bg-slate-900 border-4 border-slate-900 rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(225,29,72,0.5)]">
+              <h3 className="text-2xl font-black text-rose-600 mb-2 uppercase text-center">Khó</h3>
+              <p className="text-slate-400 font-bold text-sm text-center mb-6">30 câu • 10 phút • IELTS & Chuyên sâu</p>
+              <div className="space-y-3">
+                {[1, 2, 3].map((num) => (
+                  <button key={`strict_hard_${num}`} onClick={() => setView('strict-exam', `hard_${num}`)} className="w-full flex items-center justify-between p-4 bg-slate-800 border-2 border-slate-700 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] hover:border-rose-500 hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none transition-all">
+                    <span className="font-black text-white">Thử thách {num}</span>
+                    <Play size={20} className="text-rose-500" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {createGroup.length > 0 && (
           <section>
             <h2 className="text-4xl font-black text-emerald-600 mb-10 px-4 border-l-8 border-emerald-600 uppercase tracking-tighter italic">Từ vựng của bạn</h2>

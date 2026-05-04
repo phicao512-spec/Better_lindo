@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { ieltsQuestions, IeltsCategory, IeltsQuestion } from "../data/ieltsQuestions";
-import { MessageCircle, PenTool, Lightbulb, ChevronRight } from "lucide-react";
+import { MessageCircle, PenTool, Lightbulb, ChevronRight, CheckSquare } from "lucide-react";
 import * as motion from "motion/react-client";
+import { useStore } from "../store/useStore";
 
 export function Practice() {
-  const [selectedCategory, setSelectedCategory] = useState<IeltsCategory | null>(null);
+  const { setView } = useStore();
+  const [selectedCategory, setSelectedCategory] = useState<IeltsCategory | 'Random' | null>(null);
+  const [randomQuestions, setRandomQuestions] = useState<IeltsQuestion[]>([]);
 
   const categories: { name: IeltsCategory; icon: React.ReactNode; color: string }[] = [
     { name: 'Speaking Part 1', icon: <MessageCircle />, color: 'bg-emerald-50 text-emerald-600 border-emerald-500' },
@@ -15,7 +18,14 @@ export function Practice() {
   ];
 
   if (selectedCategory) {
-    const questions = ieltsQuestions.filter(q => q.category === selectedCategory);
+    let questions = ieltsQuestions.filter(q => q.category === selectedCategory);
+    let title = selectedCategory;
+
+    if (selectedCategory === 'Random') {
+      questions = randomQuestions;
+      title = "Luyện tập ngẫu nhiên";
+    }
+
     return (
       <div className="pb-32 pt-6 px-4 max-w-lg mx-auto w-full">
         <button 
@@ -25,14 +35,21 @@ export function Practice() {
            Trở về
         </button>
 
-        <h1 className="text-3xl font-black text-slate-900 mb-8 px-2">{selectedCategory}</h1>
+        <h1 className="text-3xl font-black text-slate-900 mb-8 px-2">{title}</h1>
 
         <div className="space-y-6">
           {questions.map((q) => (
             <div key={q.id} className="bg-white border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] rounded-[32px] p-6">
-              <span className="inline-block bg-slate-100 border-2 border-slate-900 rounded-lg px-3 py-1 text-xs font-black uppercase tracking-wider mb-4">
-                Chủ đề: {q.topic}
-              </span>
+              <div className="flex items-center justify-between mb-4">
+                <span className="inline-block bg-slate-100 border-2 border-slate-900 rounded-lg px-3 py-1 text-xs font-black uppercase tracking-wider">
+                  Chủ đề: {q.topic}
+                </span>
+                {selectedCategory === 'Random' && (
+                  <span className="text-xs font-bold text-slate-500 bg-white border-2 border-slate-200 px-2 py-1 rounded-md">
+                    {q.category}
+                  </span>
+                )}
+              </div>
               <h3 className="text-xl font-bold text-slate-900 mb-6 whitespace-pre-line">{q.question}</h3>
               
               <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4">
@@ -66,6 +83,46 @@ export function Practice() {
       </div>
 
       <div className="space-y-4">
+        {/* Progress Test Button */}
+        <button
+          onClick={() => setView('assessment')}
+          className="w-full flex items-center justify-between p-6 mb-4 bg-indigo-600 border-4 border-slate-900 rounded-[32px] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-white"
+        >
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-2xl border-2 bg-indigo-500 border-slate-900 text-white">
+              <CheckSquare size={24} />
+            </div>
+            <div>
+              <span className="block text-xl font-black">Kiểm tra từ vựng ABCD</span>
+              <span className="block text-sm font-bold text-indigo-200">Đánh giá quá trình học tập</span>
+            </div>
+          </div>
+          <ChevronRight className="text-indigo-300" size={28} />
+        </button>
+
+        {/* Random IELTS Questions Button */}
+        <button
+          onClick={() => {
+            const shuffled = [...ieltsQuestions].sort(() => 0.5 - Math.random());
+            setRandomQuestions(shuffled.slice(0, 5));
+            setSelectedCategory('Random');
+          }}
+          className="w-full flex items-center justify-between p-6 mb-8 bg-amber-400 border-4 border-slate-900 rounded-[32px] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
+        >
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-2xl border-2 bg-amber-300 border-slate-900 text-slate-900">
+              <Lightbulb size={24} />
+            </div>
+            <div>
+              <span className="block text-xl font-black">Luyện tập ngẫu nhiên</span>
+              <span className="block text-sm font-bold text-slate-700">Trộn ngẫu nhiên các câu hỏi IELTS</span>
+            </div>
+          </div>
+          <ChevronRight className="text-slate-900" size={28} />
+        </button>
+
+        <h2 className="text-xl font-black text-slate-900 mb-4 px-2 uppercase tracking-tight">Chọn theo kỹ năng</h2>
+
         {categories.map((cat, i) => (
           <button
             key={i}

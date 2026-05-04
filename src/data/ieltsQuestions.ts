@@ -129,5 +129,55 @@ export const ieltsQuestions: IeltsQuestion[] = [
       "Body 1 (Causes): Khí thải công nghiệp, phá rừng, phương tiện giao thông.",
       "Body 2 (Solutions): Năng lượng tái tạo, chính sách thuế carbon (Chính phủ); giảm sử dụng đồ nhựa, đi phương tiện công cộng (Cá nhân)."
     ]
+  },
+  {
+    id: "sp1_4",
+    category: "Speaking Part 1",
+    topic: "Studies",
+    question: "What are you studying? Why did you choose that particular course?",
+    tips: [
+      "Trả lời trực tiếp vào câu hỏi và mở rộng thêm 1-2 câu để làm rõ lý do hoặc cảm xúc của bạn.",
+      "Sử dụng các trạng từ chỉ cảm xúc hoặc tần suất để câu trả lời tự nhiên hơn."
+    ]
+  },
+  {
+    id: "sp2_3",
+    category: "Speaking Part 2",
+    topic: "Influential Person",
+    question: "Describe a person who has influenced you in your life. You should say: Who the person is; How you met them; What they are like; and explain why they have influenced you so much.",
+    tips: [
+      "Kết hợp linh hoạt giữa thì quá khứ (khi kể về việc gặp gỡ) và thì hiện tại (khi nói về tính cách và ảnh hưởng hiện tại).",
+      "Kể một câu chuyện nhỏ hoặc ví dụ cụ thể về cách họ đã giúp đỡ hoặc truyền cảm hứng cho bạn."
+    ]
+  },
+  {
+    id: "sp3_3",
+    category: "Speaking Part 3",
+    topic: "Influential People in Society",
+    question: "What kinds of people are influential in your country?",
+    tips: [
+      "Thảo luận về nhiều nhóm người khác nhau như chính trị gia, doanh nhân, hoặc các ngôi sao mạng xã hội.",
+      "Giải thích lý do tại sao họ lại có sức ảnh hưởng, ví dụ như thông qua các quyết định quan trọng hoặc qua sức mạnh truyền thông."
+    ]
+  },
+  {
+    id: "wt1_2",
+    category: "Writing Task 1",
+    topic: "Internet Usage (Line Graph)",
+    question: "The graph below shows the percentage of people using the Internet in three countries between 1999 and 2009. Summarize the information by selecting and reporting the main features, and make comparisons where relevant.",
+    tips: [
+      "Luôn bắt đầu bằng việc paraphrase lại đề bài bằng ngôn ngữ của riêng bạn.",
+      "Xác định các xu hướng chung (tăng, giảm, ổn định) và so sánh các điểm dữ liệu nổi bật nhất giữa các quốc gia."
+    ]
+  },
+  {
+    id: "wt2_3",
+    category: "Writing Task 2",
+    topic: "Environment (Fuel Cost)",
+    question: "Some people think that the best way to reduce local environmental problems is to increase the cost of fuel. To what extent do you agree or disagree?",
+    tips: [
+      "Nêu rõ quan điểm của bạn (đồng ý, không đồng ý hoặc trung lập) ngay trong phần mở bài.",
+      "Mỗi đoạn thân bài nên tập trung vào một luận điểm chính và đi kèm với các ví dụ thực tế để minh họa."
+    ]
   }
 ];
