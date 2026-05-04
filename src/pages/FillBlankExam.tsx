@@ -35,7 +35,11 @@ export function FillBlankExam() {
       filteredLessons = allLessons.filter(l => l.level === 'ielts' || l.level === 'collocations' || customLessons.includes(l));
     }
 
-    const allWords = filteredLessons.flatMap(l => l.words).filter(w => w.exampleEn && w.exampleVi);
+    const allWords = filteredLessons.flatMap(l => l.words).filter(w => {
+      if (!w.exampleEn || !w.exampleVi || !w.en) return false;
+      const escapedWord = w.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return new RegExp(escapedWord, 'gi').test(w.exampleEn);
+    });
     const uniqueWords = Array.from(new Map(allWords.map(w => [w.en, w])).values());
     const shuffled = uniqueWords.sort(() => 0.5 - Math.random());
     setTestWords(shuffled.slice(0, Math.min(NUM_QUESTIONS, shuffled.length)));
@@ -189,7 +193,8 @@ export function FillBlankExam() {
 
   const word = testWords[currentIndex];
   // Blank out the word in the example sentence
-  const maskedSentence = word.exampleEn?.replace(new RegExp(word.en, 'gi'), '___________') || '';
+  const escapedWord = word.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const maskedSentence = word.exampleEn?.replace(new RegExp(escapedWord, 'gi'), '___________') || '';
 
   return (
     <div className="flex flex-col h-[100dvh] bg-slate-50">

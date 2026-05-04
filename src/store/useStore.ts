@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Lesson } from '../data/lessons';
 
-export type ViewState = 'home' | 'learn' | 'quiz' | 'profile' | 'practice' | 'create' | 'assessment' | 'final-exam' | 'fill-blank-exam' | 'strict-exam';
+export type ViewState = 'home' | 'learn' | 'quiz' | 'profile' | 'practice' | 'create' | 'assessment' | 'assessment-fill' | 'paragraph-exam' | 'final-exam' | 'fill-blank-exam' | 'strict-exam';
 
 interface AppState {
   currentView: ViewState;

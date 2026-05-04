@@ -8,6 +8,8 @@ import { Create } from './pages/Create';
 import { BottomNav } from './components/layout/BottomNav';
 import { Sidebar } from './components/layout/Sidebar';
 import { AssessmentTest } from './pages/AssessmentTest';
+import { AssessmentFillBlank } from './pages/AssessmentFillBlank';
+import { ParagraphExam } from './pages/ParagraphExam';
 import { FinalExam } from './pages/FinalExam';
 import { FillBlankExam } from './pages/FillBlankExam';
 import { StrictExam } from './pages/StrictExam';
@@ -29,6 +31,8 @@ export default function App() {
           {currentView === 'practice' && <Practice />}
           {currentView === 'create' && <Create />}
           {currentView === 'assessment' && <AssessmentTest />}
+          {currentView === 'assessment-fill' && <AssessmentFillBlank />}
+          {currentView === 'paragraph-exam' && <ParagraphExam />}
           {currentView === 'final-exam' && <FinalExam />}
           {currentView === 'fill-blank-exam' && <FillBlankExam />}
           {currentView === 'strict-exam' && <StrictExam />}

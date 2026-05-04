@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ieltsQuestions, IeltsCategory, IeltsQuestion } from "../data/ieltsQuestions";
-import { MessageCircle, PenTool, Lightbulb, ChevronRight, CheckSquare } from "lucide-react";
+import { MessageCircle, PenTool, Lightbulb, ChevronRight, CheckSquare, BookOpen, CheckCircle, Clock, FileText } from "lucide-react";
 import * as motion from "motion/react-client";
 import { useStore } from "../store/useStore";
 
@@ -83,21 +83,55 @@ export function Practice() {
       </div>
 
       <div className="space-y-4">
-        {/* Progress Test Button */}
+        {/* Progress Test Button - Multiple Choice */}
         <button
           onClick={() => setView('assessment')}
-          className="w-full flex items-center justify-between p-6 mb-4 bg-indigo-600 border-4 border-slate-900 rounded-[32px] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-white"
+          className="w-full flex items-center justify-between p-6 bg-indigo-600 border-4 border-slate-900 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-white"
         >
           <div className="flex items-center gap-4">
             <div className="p-3 rounded-2xl border-2 bg-indigo-500 border-slate-900 text-white">
               <CheckSquare size={24} />
             </div>
             <div>
-              <span className="block text-xl font-black">Kiểm tra từ vựng ABCD</span>
-              <span className="block text-sm font-bold text-indigo-200">Đánh giá quá trình học tập</span>
+              <span className="block text-xl font-black">Kiểm tra trắc nghiệm</span>
+              <span className="block text-sm font-bold text-indigo-200">Đánh giá nhanh ABCD</span>
             </div>
           </div>
           <ChevronRight className="text-indigo-300" size={28} />
+        </button>
+
+        {/* Progress Test Button - Fill in the blanks */}
+        <button
+          onClick={() => setView('assessment-fill')}
+          className="w-full flex items-center justify-between p-6 bg-cyan-500 border-4 border-slate-900 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
+        >
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-2xl border-2 bg-white border-slate-900 text-cyan-600">
+              <PenTool size={24} />
+            </div>
+            <div>
+              <span className="block text-xl font-black">Kiểm tra điền chữ</span>
+              <span className="block text-sm font-bold text-cyan-800">Kiểm tra chính tả</span>
+            </div>
+          </div>
+          <ChevronRight className="text-cyan-800" size={28} />
+        </button>
+
+        {/* Paragraph Fill-in-the-blank Button */}
+        <button
+          onClick={() => setView('paragraph-exam')}
+          className="w-full flex items-center justify-between p-6 bg-emerald-400 border-4 border-slate-900 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
+        >
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-2xl border-2 bg-white border-slate-900 text-emerald-600">
+              <FileText size={24} />
+            </div>
+            <div>
+              <span className="block text-xl font-black">Điền từ đoạn văn</span>
+              <span className="block text-sm font-bold text-emerald-800">Reading Gap Fill (IELTS)</span>
+            </div>
+          </div>
+          <ChevronRight className="text-emerald-800" size={28} />
         </button>
 
         {/* Random IELTS Questions Button */}
