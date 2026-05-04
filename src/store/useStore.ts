@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Lesson } from '../data/lessons';
 
-export type ViewState = 'home' | 'learn' | 'quiz' | 'profile' | 'practice' | 'create' | 'assessment' | 'assessment-fill' | 'paragraph-exam' | 'final-exam' | 'fill-blank-exam' | 'strict-exam';
+export type ViewState = 'home' | 'learn' | 'quiz' | 'profile' | 'practice' | 'create' | 'assessment' | 'assessment-fill' | 'paragraph-exam' | 'speaking-exam' | 'final-exam' | 'fill-blank-exam' | 'strict-exam';
 
 interface AppState {
   currentView: ViewState;
@@ -12,6 +12,7 @@ interface AppState {
   xp: number;
   streak: number;
   lastPlayedDate: string | null;
+  geminiApiKey: string | null;
   highestExamScore: {
     easy: number;
     medium: number;
@@ -33,6 +34,7 @@ interface AppState {
   setView: (view: ViewState, lessonId?: string) => void;
   completeLesson: (lessonId: string, earnedXp: number) => void;
   updateStreak: () => void;
+  setGeminiApiKey: (key: string | null) => void;
   addCustomLesson: (lesson: Lesson) => void;
   updateExamScore: (difficulty: 'easy'|'medium'|'hard', score: number) => void;
   updateFillBlankScore: (difficulty: 'easy'|'medium'|'hard', score: number) => void;
@@ -49,6 +51,7 @@ export const useStore = create<AppState>()(
       xp: 0,
       streak: 0,
       lastPlayedDate: null,
+      geminiApiKey: null,
       highestExamScore: { easy: 0, medium: 0, hard: 0 },
       highestFillBlankScore: { easy: 0, medium: 0, hard: 0 },
       highestStrictScore: { easy: 0, medium: 0, hard: 0 },
@@ -85,6 +88,8 @@ export const useStore = create<AppState>()(
       addCustomLesson: (lesson) => set((state) => ({
         customLessons: [...state.customLessons, lesson]
       })),
+
+      setGeminiApiKey: (key) => set({ geminiApiKey: key }),
 
       updateExamScore: (difficulty, score) => set((state) => ({
         highestExamScore: {

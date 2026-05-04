@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ieltsQuestions, IeltsCategory, IeltsQuestion } from "../data/ieltsQuestions";
-import { MessageCircle, PenTool, Lightbulb, ChevronRight, CheckSquare, BookOpen, CheckCircle, Clock, FileText } from "lucide-react";
+import { MessageCircle, PenTool, Lightbulb, ChevronRight, CheckSquare, BookOpen, CheckCircle, Clock, FileText, Mic } from "lucide-react";
 import * as motion from "motion/react-client";
 import { useStore } from "../store/useStore";
 
@@ -132,6 +132,23 @@ export function Practice() {
             </div>
           </div>
           <ChevronRight className="text-emerald-800" size={28} />
+        </button>
+
+        {/* AI Speaking Room Button */}
+        <button
+          onClick={() => setView('speaking-exam')}
+          className="w-full flex items-center justify-between p-6 bg-rose-400 border-4 border-slate-900 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
+        >
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-2xl border-2 bg-white border-slate-900 text-rose-600">
+              <Mic size={24} />
+            </div>
+            <div>
+              <span className="block text-xl font-black">Phòng thi Nói (AI)</span>
+              <span className="block text-sm font-bold text-rose-800">Luyện IELTS Speaking với Giám khảo AI</span>
+            </div>
+          </div>
+          <ChevronRight className="text-rose-800" size={28} />
         </button>
 
         {/* Random IELTS Questions Button */}
