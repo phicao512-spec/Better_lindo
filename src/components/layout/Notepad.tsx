@@ -38,16 +38,20 @@ export function Notepad() {
     <div 
       className={`fixed z-50 transition-all duration-300 ease-in-out ${
         isMinimized 
-          ? 'bottom-6 right-6 w-72 h-14 overflow-hidden' 
+          ? 'bottom-6 right-6 w-80 h-16 overflow-hidden' 
           : 'bottom-6 right-6 w-80 md:w-96 h-[500px]'
       } bg-white/80 backdrop-blur-xl border-4 border-slate-900 rounded-[2.5rem] shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] flex flex-col`}
     >
       {/* Header */}
-      <div className="p-4 border-b-2 border-slate-900 flex items-center justify-between bg-indigo-50 rounded-t-[2.2rem] shrink-0">
-        <div className="flex items-center gap-2 overflow-hidden mr-2">
+      <div className={`px-6 flex items-center justify-between bg-indigo-50 rounded-t-[2.2rem] shrink-0 border-b-2 border-slate-900 ${isMinimized ? 'h-full border-b-0' : 'h-16'}`}>
+        <div className="flex items-center gap-3">
           <StickyNote size={20} className="text-indigo-600 shrink-0" />
-          <span className="font-black text-slate-900 uppercase tracking-tight whitespace-nowrap truncate text-sm">Sổ tay ghi chú</span>
+          <span className="font-black text-slate-900 uppercase tracking-tight whitespace-nowrap text-sm">Sổ tay</span>
         </div>
+        
+        {!isMinimized && <span className="font-black text-slate-900 uppercase tracking-tight text-sm absolute left-1/2 -translate-x-1/2">Ghi chú</span>}
+        {isMinimized && <span className="font-black text-slate-900 uppercase tracking-tight text-sm">Ghi chú</span>}
+
         <div className="flex items-center gap-2">
           <button 
             onClick={() => setIsMinimized(!isMinimized)}
