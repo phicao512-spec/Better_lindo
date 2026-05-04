@@ -28,6 +28,7 @@ interface AppState {
     medium: number;
     hard: number;
   };
+  notes: string;
   
   
   // Actions
@@ -39,6 +40,7 @@ interface AppState {
   updateExamScore: (difficulty: 'easy'|'medium'|'hard', score: number) => void;
   updateFillBlankScore: (difficulty: 'easy'|'medium'|'hard', score: number) => void;
   updateStrictScore: (difficulty: 'easy'|'medium'|'hard', score: number) => void;
+  setNotes: (notes: string) => void;
 }
 
 export const useStore = create<AppState>()(
@@ -55,6 +57,7 @@ export const useStore = create<AppState>()(
       highestExamScore: { easy: 0, medium: 0, hard: 0 },
       highestFillBlankScore: { easy: 0, medium: 0, hard: 0 },
       highestStrictScore: { easy: 0, medium: 0, hard: 0 },
+      notes: '',
 
       setView: (view, lessonId) => set({ currentView: view, activeLessonId: lessonId || null }),
       
@@ -111,6 +114,8 @@ export const useStore = create<AppState>()(
           [difficulty]: Math.max(state.highestStrictScore[difficulty] || 0, score)
         }
       })),
+
+      setNotes: (notes) => set({ notes }),
     }),
     {
       name: 'lingolearn-storage',

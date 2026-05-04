@@ -14,6 +14,7 @@ import { SpeakingExam } from './pages/SpeakingExam';
 import { FinalExam } from './pages/FinalExam';
 import { FillBlankExam } from './pages/FillBlankExam';
 import { StrictExam } from './pages/StrictExam';
+import { Notepad } from './components/layout/Notepad';
 
 export default function App() {
   const { currentView } = useStore();
@@ -42,6 +43,7 @@ export default function App() {
         
         {showNav && <div className="md:hidden"><BottomNav /></div>}
       </main>
+      <Notepad />
     </div>
   );
 }
