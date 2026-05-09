@@ -109,9 +109,7 @@ export function StrictExam() {
   };
 
   const handleQuit = () => {
-    if (confirm("Bạn có chắc chắn muốn thoát? Kết quả sẽ không được lưu.")) {
-      setView('home');
-    }
+    setView('home');
   };
 
   if (testWords.length === 0) {

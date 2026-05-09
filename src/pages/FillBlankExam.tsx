@@ -113,9 +113,7 @@ export function FillBlankExam() {
   };
 
   const handleQuit = () => {
-    if (confirm("Bạn có chắc chắn muốn thoát? Kết quả sẽ không được lưu.")) {
-      setView('home');
-    }
+    setView('practice');
   };
 
   if (testWords.length === 0) {

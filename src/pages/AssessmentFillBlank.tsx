@@ -77,9 +77,7 @@ export function AssessmentFillBlank() {
   };
 
   const handleQuit = () => {
-    if (confirm("Bạn có chắc chắn muốn thoát? Kết quả sẽ không được lưu.")) {
-      setView('practice');
-    }
+    setView('practice');
   };
 
   if (testWords.length === 0) {

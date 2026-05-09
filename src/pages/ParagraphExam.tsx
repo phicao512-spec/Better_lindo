@@ -50,9 +50,7 @@ export function ParagraphExam() {
   };
 
   const handleQuit = () => {
-    if (confirm("Bạn có chắc chắn muốn thoát? Kết quả sẽ không được lưu.")) {
-      setView('practice');
-    }
+    setView('home');
   };
 
   const renderParagraph = () => {

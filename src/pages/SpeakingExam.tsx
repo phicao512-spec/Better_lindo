@@ -219,11 +219,7 @@ Example format:
           <MessageCircle size={20} className="text-indigo-500" /> Giám khảo AI (IELTS)
         </div>
         <button 
-          onClick={() => {
-            if (confirm("Bạn có muốn xóa API Key hiện tại để nhập lại không?")) {
-              setGeminiApiKey(null);
-            }
-          }}
+          onClick={() => setGeminiApiKey(null)}
           className="p-2 text-slate-400 hover:text-indigo-600 transition-colors"
           title="Đổi API Key"
         >

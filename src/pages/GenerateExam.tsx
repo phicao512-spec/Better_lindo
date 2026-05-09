@@ -553,15 +553,13 @@ Return ONLY the raw JSON. No markdown formatting.`;
                         <p className="text-slate-500 font-medium mb-8">Bạn sẽ không thể quay lại phần này sau khi đã xác nhận nộp.</p>
                         <button 
                           onClick={() => {
-                            if (confirm("Bạn có chắc chắn muốn nộp phần này và chuyển sang phần tiếp theo không? Bạn sẽ không thể quay lại sửa đáp án.")) {
-                              if (currentSectionIdx < sections.length - 1) {
-                                setCurrentSectionIdx(prev => prev + 1);
-                                setTimeLeft(sections[currentSectionIdx + 1].time);
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                              } else {
-                                setExamState('finished');
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                              }
+                            if (currentSectionIdx < sections.length - 1) {
+                              setCurrentSectionIdx(prev => prev + 1);
+                              setTimeLeft(sections[currentSectionIdx + 1].time);
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            } else {
+                              setExamState('finished');
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
                             }
                           }}
                           className="px-8 py-4 bg-emerald-500 text-white font-bold text-lg rounded-full hover:bg-emerald-600 transition-all shadow-md hover:shadow-xl hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 mx-auto"
