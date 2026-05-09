@@ -157,18 +157,18 @@ export function Practice() {
             setTargetExamType('IELTS');
             setView('generate-exam');
           }}
-          className="w-full flex items-center justify-between p-6 mb-6 bg-fuchsia-400 border-4 border-slate-900 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
+          className="w-full flex items-center justify-between p-6 bg-fuchsia-400 border-4 border-slate-900 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
         >
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl border-2 bg-white border-slate-900 text-fuchsia-600">
+            <div className="p-3 rounded-2xl border-2 bg-white border-slate-900 text-fuchsia-600 shrink-0">
               <Lightbulb size={24} />
             </div>
             <div>
-              <span className="block text-xl font-black">Tạo Đề Thi IELTS (AI)</span>
-              <span className="block text-sm font-bold text-fuchsia-900">Sinh đề IELTS Academic mới tinh bằng Gemini 2.5 Flash</span>
+              <span className="block text-xl font-black">Tạo Đề IELTS (AI)</span>
+              <span className="block text-sm font-bold text-fuchsia-900 mt-1">Sinh đề IELTS Mock Test bằng AI</span>
             </div>
           </div>
-          <ChevronRight className="text-fuchsia-900" size={28} />
+          <ChevronRight className="text-fuchsia-900 shrink-0" size={28} />
         </button>
 
         {/* Generate AI Exam Button (TOEIC) */}
@@ -180,15 +180,15 @@ export function Practice() {
           className="w-full flex items-center justify-between p-6 bg-cyan-400 border-4 border-slate-900 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
         >
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl border-2 bg-white border-slate-900 text-cyan-600">
+            <div className="p-3 rounded-2xl border-2 bg-white border-slate-900 text-cyan-600 shrink-0">
               <Sparkles size={24} />
             </div>
             <div>
-              <span className="block text-xl font-black">Tạo Đề Thi TOEIC (AI)</span>
-              <span className="block text-sm font-bold text-cyan-900">Sinh đề TOEIC Full (Reading & Speaking/Writing)</span>
+              <span className="block text-xl font-black">Tạo Đề TOEIC (AI)</span>
+              <span className="block text-sm font-bold text-cyan-900 mt-1">Sinh đề TOEIC Mock Test bằng AI</span>
             </div>
           </div>
-          <ChevronRight className="text-cyan-900" size={28} />
+          <ChevronRight className="text-cyan-900 shrink-0" size={28} />
         </button>
 
         {/* Random IELTS Questions Button */}
@@ -198,7 +198,7 @@ export function Practice() {
             setRandomQuestions(shuffled.slice(0, 5));
             setSelectedCategory('Random');
           }}
-          className="w-full flex items-center justify-between p-6 mb-8 bg-amber-400 border-4 border-slate-900 rounded-[32px] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
+          className="w-full flex items-center justify-between p-6 bg-amber-400 border-4 border-slate-900 rounded-[32px] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
         >
           <div className="flex items-center gap-4">
             <div className="p-3 rounded-2xl border-2 bg-amber-300 border-slate-900 text-slate-900">
@@ -212,7 +212,7 @@ export function Practice() {
           <ChevronRight className="text-slate-900" size={28} />
         </button>
 
-        <h2 className="text-xl font-black text-slate-900 mb-4 px-2 uppercase tracking-tight">Chọn theo kỹ năng</h2>
+        <h2 className="text-xl font-black text-slate-900 mb-4 mt-8 px-2 uppercase tracking-tight">Chọn theo kỹ năng</h2>
 
         {categories.map((cat, i) => (
           <button
