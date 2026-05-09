@@ -45,6 +45,8 @@ interface AppState {
   updateStrictScore: (difficulty: 'easy'|'medium'|'hard', score: number) => void;
   setNotes: (notes: string) => void;
   setGeneratedIeltsTest: (test: IeltsQuestion[] | null) => void;
+  targetExamType: 'IELTS' | 'TOEIC';
+  setTargetExamType: (type: 'IELTS' | 'TOEIC') => void;
 }
 
 export const useStore = create<AppState>()(
@@ -63,6 +65,7 @@ export const useStore = create<AppState>()(
       highestStrictScore: { easy: 0, medium: 0, hard: 0 },
       notes: '',
       generatedIeltsTest: null,
+      targetExamType: 'IELTS',
 
       setView: (view, lessonId) => set({ currentView: view, activeLessonId: lessonId || null }),
       
@@ -122,6 +125,7 @@ export const useStore = create<AppState>()(
 
       setNotes: (notes) => set({ notes }),
       setGeneratedIeltsTest: (test) => set({ generatedIeltsTest: test }),
+      setTargetExamType: (type) => set({ targetExamType: type }),
     }),
     {
       name: 'lingolearn-storage',

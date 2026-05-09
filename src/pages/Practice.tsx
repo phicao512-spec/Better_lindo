@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { ieltsQuestions, IeltsCategory, IeltsQuestion } from "../data/ieltsQuestions";
-import { MessageCircle, PenTool, Lightbulb, ChevronRight, CheckSquare, BookOpen, CheckCircle, Clock, FileText, Mic } from "lucide-react";
+import { MessageCircle, PenTool, Lightbulb, ChevronRight, CheckSquare, BookOpen, CheckCircle, Clock, FileText, Mic, Sparkles } from "lucide-react";
 import * as motion from "motion/react-client";
 import { useStore } from "../store/useStore";
 
 export function Practice() {
-  const { setView } = useStore();
+  const { setView, setTargetExamType } = useStore();
   const [selectedCategory, setSelectedCategory] = useState<IeltsCategory | 'Random' | null>(null);
   const [randomQuestions, setRandomQuestions] = useState<IeltsQuestion[]>([]);
 
@@ -151,10 +151,13 @@ export function Practice() {
           <ChevronRight className="text-rose-800" size={28} />
         </button>
 
-        {/* Generate AI Exam Button */}
+        {/* Generate AI Exam Button (IELTS) */}
         <button
-          onClick={() => setView('generate-exam')}
-          className="w-full flex items-center justify-between p-6 bg-fuchsia-400 border-4 border-slate-900 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
+          onClick={() => {
+            setTargetExamType('IELTS');
+            setView('generate-exam');
+          }}
+          className="w-full flex items-center justify-between p-6 mb-6 bg-fuchsia-400 border-4 border-slate-900 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
         >
           <div className="flex items-center gap-4">
             <div className="p-3 rounded-2xl border-2 bg-white border-slate-900 text-fuchsia-600">
@@ -162,10 +165,30 @@ export function Practice() {
             </div>
             <div>
               <span className="block text-xl font-black">Tạo Đề Thi IELTS (AI)</span>
-              <span className="block text-sm font-bold text-fuchsia-900">Sinh đề Speaking & Writing mới tinh bằng Gemini 2.5 Flash</span>
+              <span className="block text-sm font-bold text-fuchsia-900">Sinh đề IELTS Academic mới tinh bằng Gemini 2.5 Flash</span>
             </div>
           </div>
           <ChevronRight className="text-fuchsia-900" size={28} />
+        </button>
+
+        {/* Generate AI Exam Button (TOEIC) */}
+        <button
+          onClick={() => {
+            setTargetExamType('TOEIC');
+            setView('generate-exam');
+          }}
+          className="w-full flex items-center justify-between p-6 bg-cyan-400 border-4 border-slate-900 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] active:translate-y-[4px] active:translate-x-[4px] active:shadow-none transition-all text-left text-slate-900"
+        >
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-2xl border-2 bg-white border-slate-900 text-cyan-600">
+              <Sparkles size={24} />
+            </div>
+            <div>
+              <span className="block text-xl font-black">Tạo Đề Thi TOEIC (AI)</span>
+              <span className="block text-sm font-bold text-cyan-900">Sinh đề TOEIC Full (Reading & Speaking/Writing)</span>
+            </div>
+          </div>
+          <ChevronRight className="text-cyan-900" size={28} />
         </button>
 
         {/* Random IELTS Questions Button */}

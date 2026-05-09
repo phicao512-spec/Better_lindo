@@ -5,7 +5,13 @@ import { X, Settings, Sparkles, MessageCircle, PenTool, Lightbulb, ChevronRight,
 import { IeltsQuestion, IeltsCategory } from "../data/ieltsQuestions";
 
 export function GenerateExam() {
-  const { setView, geminiApiKey, setGeminiApiKey, generatedIeltsTest, setGeneratedIeltsTest } = useStore();
+  const geminiApiKey = useStore(state => state.geminiApiKey);
+  const setGeminiApiKey = useStore(state => state.setGeminiApiKey);
+  const generatedIeltsTest = useStore(state => state.generatedIeltsTest);
+  const setGeneratedIeltsTest = useStore(state => state.setGeneratedIeltsTest);
+  const targetExamType = useStore(state => state.targetExamType) || 'IELTS';
+  const { setView } = useStore();
+
   const [isProcessing, setIsProcessing] = useState(false);
   const [apiKeyInput, setApiKeyInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -19,12 +25,21 @@ export function GenerateExam() {
 
   const sections = useMemo(() => {
     if (!generatedIeltsTest) return [];
+    
+    if (targetExamType === 'TOEIC') {
+      return [
+        { title: "PHẦN 1: TOEIC READING (45 Phút)", time: 45 * 60, items: generatedIeltsTest.filter(q => ['Reading', 'Grammar Fill Blank', 'Multiple Choice'].includes(q.category)) },
+        { title: "PHẦN 2: TOEIC WRITING (30 Phút)", time: 30 * 60, items: generatedIeltsTest.filter(q => q.category.includes('Writing')) },
+        { title: "PHẦN 3: TOEIC SPEAKING (20 Phút)", time: 20 * 60, items: generatedIeltsTest.filter(q => q.category.includes('Speaking')) }
+      ].filter(s => s.items.length > 0);
+    }
+    
     return [
       { title: "PHẦN 1: ACADEMIC READING (20 Phút)", time: 20 * 60, items: generatedIeltsTest.filter(q => ['Reading', 'Grammar Fill Blank', 'Multiple Choice'].includes(q.category)) },
       { title: "PHẦN 2: ACADEMIC WRITING (60 Phút)", time: 60 * 60, items: generatedIeltsTest.filter(q => q.category.includes('Writing')) },
       { title: "PHẦN 3: SPEAKING (15 Phút)", time: 15 * 60, items: generatedIeltsTest.filter(q => q.category.includes('Speaking')) }
     ].filter(s => s.items.length > 0);
-  }, [generatedIeltsTest]);
+  }, [generatedIeltsTest, targetExamType]);
 
   useEffect(() => {
     if (examState !== 'running' || timeLeft <= 0) return;
@@ -74,7 +89,40 @@ export function GenerateExam() {
     setIsProcessing(true);
     setErrorMsg("");
 
-    const systemPrompt = `You are an expert IELTS Examiner and Test Creator.
+    const systemPrompt = targetExamType === 'TOEIC' 
+    ? `You are an expert TOEIC Examiner and Test Creator.
+Your task is to generate a Mock TOEIC Full Practice Test (Reading, Writing, Speaking). 
+The difficulty MUST be at TOEIC 800+ level. Use business, workplace, and international communication contexts.
+
+You must generate exactly the following 20 items in this exact order:
+--- SECTION 1: READING (10 items) ---
+Provide ONE 400-word business or workplace reading passage (e.g. email, notice, article) in the 'passage' field for the FIRST question ONLY. Do not repeat the passage.
+Then generate 10 questions based on this exact passage or general grammar:
+- 5 items for "Reading Multiple Choice" (Category: Multiple Choice) - Reading comprehension questions (A, B, C, D).
+- 5 items for "Grammar Fill Blank" (Category: Grammar Fill Blank) - Incomplete sentence with a blank (use "___").
+
+--- SECTION 2: WRITING (2 items) ---
+- 1 item for "Writing Task 1" (Category: Writing Task 1) - Write an email response to a given business scenario.
+- 1 item for "Writing Task 2" (Category: Writing Task 2) - Write an opinion essay on a workplace issue.
+
+--- SECTION 3: SPEAKING (8 items) ---
+- 4 items for "Speaking Part 1" (Category: Speaking Part 1) - Read a short business announcement aloud or respond to general questions.
+- 1 item for "Speaking Part 2" (Category: Speaking Part 2) - Describe a workplace picture (provide a detailed description of what they should imagine).
+- 3 items for "Speaking Part 3" (Category: Speaking Part 3) - Propose a solution or express an opinion.
+
+For each item, you must provide:
+1. id: A unique string id
+2. category: Must be exactly one of: "Speaking Part 1", "Speaking Part 2", "Speaking Part 3", "Writing Task 1", "Writing Task 2", "Grammar Fill Blank", "Multiple Choice", "Reading"
+3. topic: A short string topic (e.g. "Business Meeting")
+4. question: The full text of the question.
+5. passage: (ONLY for the FIRST question) The reading passage text.
+6. tips: An array of 2 to 3 string tips in VIETNAMESE.
+7. options: (ONLY for "Multiple Choice" and "Reading") An array of 4 strings representing the choices.
+8. answer: (ONLY for "Grammar Fill Blank", "Multiple Choice", and "Reading") The exact correct answer string.
+
+You MUST return the output as a valid JSON array of objects. No markdown formatting, just the raw JSON array.`
+
+    : `You are an expert IELTS Examiner and Test Creator.
 Your task is to generate a Mock IELTS Practice Test. 
 The difficulty MUST be at IELTS Band 7.5 - 8.5 level. Use academic, complex vocabulary and advanced grammar structures.
 
@@ -167,14 +215,14 @@ Example structure:
 
     setFeedbacks(prev => ({...prev, [q.id]: { isProcessing: true }}));
 
-    const systemPrompt = `You are a strict but helpful IELTS Examiner.
-Evaluate the following user's response to the given IELTS question.
+    const systemPrompt = `You are a strict but helpful ${targetExamType} Examiner.
+Evaluate the following user's response to the given ${targetExamType} question.
 Question Category: ${q.category}
 Question/Topic: ${q.topic} - ${q.question}
 User's Answer: ${answer}
 
 Provide feedback strictly as a JSON object with two fields:
-1. "score": An estimated IELTS band score (e.g. "6.5") or a general score out of 10 if not strictly IELTS.
+1. "score": An estimated ${targetExamType} band score or a general score out of 10.
 2. "feedback": A detailed, encouraging explanation in VIETNAMESE pointing out what was good, what grammar/vocabulary mistakes were made, and how to improve.
 
 Return ONLY the raw JSON. No markdown formatting.`;
@@ -274,9 +322,9 @@ Return ONLY the raw JSON. No markdown formatting.`;
               <div className="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
                 <Sparkles size={48} className="text-indigo-600" />
               </div>
-              <h2 className="text-3xl font-black text-slate-900 mb-4">Tạo Đề Thi IELTS Cá Nhân Hóa</h2>
-              <p className="text-slate-600 font-bold mb-8">
-                Hệ thống sẽ sử dụng Gemini 2.5 Flash để biên soạn một đề thi Mini Mock Test (chuẩn IELTS Academic) gồm: 1 Passage Reading (20p), Writing Task 1&2 (60p) và Speaking Full 3 Parts (15p).
+              <h2 className="text-3xl font-black text-slate-900 mb-4">Tạo Đề Thi {targetExamType} Cá Nhân Hóa</h2>
+              <p className="text-slate-500 font-medium mb-8">
+                Hệ thống sẽ sử dụng Gemini 2.5 Flash để biên soạn một đề thi Mini Mock Test chuẩn {targetExamType} (Full 3 kỹ năng) dành riêng cho bạn ngay lúc này. Quá trình có thể mất khoảng 10-15 giây.
               </p>
               <button 
                 onClick={handleGenerate}
