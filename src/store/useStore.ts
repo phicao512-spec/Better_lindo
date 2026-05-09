@@ -2,7 +2,9 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Lesson } from '../data/lessons';
 
-export type ViewState = 'home' | 'learn' | 'quiz' | 'profile' | 'practice' | 'create' | 'assessment' | 'assessment-fill' | 'paragraph-exam' | 'speaking-exam' | 'final-exam' | 'fill-blank-exam' | 'strict-exam';
+import { IeltsQuestion } from '../data/ieltsQuestions';
+
+export type ViewState = 'home' | 'learn' | 'quiz' | 'profile' | 'practice' | 'create' | 'assessment' | 'assessment-fill' | 'paragraph-exam' | 'speaking-exam' | 'final-exam' | 'fill-blank-exam' | 'strict-exam' | 'generate-exam';
 
 interface AppState {
   currentView: ViewState;
@@ -29,6 +31,7 @@ interface AppState {
     hard: number;
   };
   notes: string;
+  generatedIeltsTest: IeltsQuestion[] | null;
   
   
   // Actions
@@ -41,6 +44,7 @@ interface AppState {
   updateFillBlankScore: (difficulty: 'easy'|'medium'|'hard', score: number) => void;
   updateStrictScore: (difficulty: 'easy'|'medium'|'hard', score: number) => void;
   setNotes: (notes: string) => void;
+  setGeneratedIeltsTest: (test: IeltsQuestion[] | null) => void;
 }
 
 export const useStore = create<AppState>()(
@@ -58,6 +62,7 @@ export const useStore = create<AppState>()(
       highestFillBlankScore: { easy: 0, medium: 0, hard: 0 },
       highestStrictScore: { easy: 0, medium: 0, hard: 0 },
       notes: '',
+      generatedIeltsTest: null,
 
       setView: (view, lessonId) => set({ currentView: view, activeLessonId: lessonId || null }),
       
@@ -116,6 +121,7 @@ export const useStore = create<AppState>()(
       })),
 
       setNotes: (notes) => set({ notes }),
+      setGeneratedIeltsTest: (test) => set({ generatedIeltsTest: test }),
     }),
     {
       name: 'lingolearn-storage',

@@ -1,11 +1,14 @@
-export type IeltsCategory = 'Speaking Part 1' | 'Speaking Part 2' | 'Speaking Part 3' | 'Writing Task 1' | 'Writing Task 2';
+export type IeltsCategory = 'Speaking Part 1' | 'Speaking Part 2' | 'Speaking Part 3' | 'Writing Task 1' | 'Writing Task 2' | 'Grammar Fill Blank' | 'Multiple Choice' | 'Reading';
 
 export interface IeltsQuestion {
   id: string;
   category: IeltsCategory;
   topic: string;
   question: string;
+  passage?: string;   // Optional reading passage
   tips: string[];
+  options?: string[]; // For ABCD choices
+  answer?: string;    // Correct answer
 }
 
 export const ieltsQuestions: IeltsQuestion[] = [

@@ -7,12 +7,19 @@
 
 ## Công việc sắp tới (Upcoming Tasks)
 - [x] Thêm các tính năng thi cử (Final Exam, Fill Blank, Strict, Paragraph).
-- [ ] Tính năng "Phòng thi Speaking AI" (AI Speaking Examiner)
-  - [ ] Thêm chỗ lưu trữ `geminiApiKey` trong `useStore.ts` hoặc cài đặt.
-  - [ ] Xây dựng giao diện `SpeakingExam.tsx` có nút micro.
-  - [ ] Tích hợp Web Speech API (Speech-to-Text & Text-to-Speech).
-  - [ ] Gửi Text lên Google Gemini bằng fetch API.
-  - [ ] Ép Gemini phản hồi theo chuẩn JSON (gồm sửa lỗi ngữ pháp tiếng Việt + lời đối thoại tiếng Anh).
-  - [ ] Tích hợp nút chức năng vào `Practice.tsx` hoặc `Home.tsx`.
+- [x] Tính năng "Phòng thi Speaking AI" (AI Speaking Examiner)
+  - [x] Thêm chỗ lưu trữ `geminiApiKey` trong `useStore.ts` hoặc cài đặt.
+  - [x] Xây dựng giao diện `SpeakingExam.tsx` có nút micro.
+  - [x] Tích hợp Web Speech API (Speech-to-Text & Text-to-Speech).
+  - [x] Gửi Text lên Google Gemini bằng fetch API.
+  - [x] Ép Gemini phản hồi theo chuẩn JSON (gồm sửa lỗi ngữ pháp tiếng Việt + lời đối thoại tiếng Anh).
+  - [x] Tích hợp nút chức năng vào `Practice.tsx` hoặc `Home.tsx`.
+- [x] Tính năng Tạo đề thi IELTS bằng AI (Gemini 2.5 Flash)
+  - [x] Giao diện `GenerateExam.tsx` cho phép nhập API Key cá nhân.
+  - [x] Prompt chặt chẽ tạo cấu trúc đề Mini Mock Test IELTS (Reading Passage, Writing, Speaking).
+  - [x] Giao diện làm bài chuyên nghiệp với Left-Sidebar Timer, tự động chuyển phần.
+  - [x] Cải thiện UI/UX chuẩn Academic (bỏ thiết kế neo-brutalism cũ).
+  - [x] AI tự động chấm điểm và đánh giá Band Score cho Writing/Speaking.
+
 ## Bugs / Vấn đề cần xử lý
 - [ ] (Ghi nhận các lỗi phát sinh)

@@ -15,6 +15,7 @@ import { FinalExam } from './pages/FinalExam';
 import { FillBlankExam } from './pages/FillBlankExam';
 import { StrictExam } from './pages/StrictExam';
 import { Notepad } from './components/layout/Notepad';
+import { GenerateExam } from './pages/GenerateExam';
 
 export default function App() {
   const { currentView } = useStore();
@@ -39,6 +40,7 @@ export default function App() {
           {currentView === 'final-exam' && <FinalExam />}
           {currentView === 'fill-blank-exam' && <FillBlankExam />}
           {currentView === 'strict-exam' && <StrictExam />}
+          {currentView === 'generate-exam' && <GenerateExam />}
         </div>
         
         {showNav && <div className="md:hidden"><BottomNav /></div>}
