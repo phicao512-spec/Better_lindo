@@ -21,5 +21,13 @@
   - [x] Cải thiện UI/UX chuẩn Academic (bỏ thiết kế neo-brutalism cũ).
   - [x] AI tự động chấm điểm và đánh giá Band Score cho Writing/Speaking.
 
+## Kế hoạch Fullstack (Backend & Authentication)
+- [ ] Tích hợp BaaS (Firebase hoặc Supabase).
+  - [ ] Xây dựng luồng Đăng nhập/Đăng ký (Authentication).
+  - [ ] Xây dựng trang Profile cá nhân (Dashboard, Lịch sử thi, Biểu đồ tiến độ).
+  - [ ] Nâng cấp State Management (`useStore.ts`) để quản lý phiên đăng nhập (User Session).
+  - [ ] Thiết kế Database schema để lưu trữ kết quả thi (Exam Results, AI Feedbacks).
+  - [ ] (Tuỳ chọn) Tích hợp Cloud Functions/Edge Functions để giấu API Key, bảo mật hoàn toàn việc gọi Gemini API.
+
 ## Bugs / Vấn đề cần xử lý
 - [ ] (Ghi nhận các lỗi phát sinh)
