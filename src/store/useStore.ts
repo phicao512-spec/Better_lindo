@@ -4,7 +4,7 @@ import { Lesson } from '../data/lessons';
 
 import { IeltsQuestion } from '../data/ieltsQuestions';
 
-export type ViewState = 'home' | 'learn' | 'quiz' | 'profile' | 'practice' | 'create' | 'assessment' | 'assessment-fill' | 'paragraph-exam' | 'speaking-exam' | 'final-exam' | 'fill-blank-exam' | 'strict-exam' | 'generate-exam';
+export type ViewState = 'home' | 'learn' | 'quiz' | 'profile' | 'practice' | 'create' | 'assessment' | 'assessment-fill' | 'paragraph-exam' | 'speaking-exam' | 'final-exam' | 'fill-blank-exam' | 'strict-exam' | 'generate-exam' | 'login';
 
 interface AppState {
   currentView: ViewState;
@@ -47,6 +47,11 @@ interface AppState {
   setGeneratedIeltsTest: (test: IeltsQuestion[] | null) => void;
   targetExamType: 'IELTS' | 'TOEIC';
   setTargetExamType: (type: 'IELTS' | 'TOEIC') => void;
+  
+  // Auth
+  user: { id: string; email: string; name: string } | null;
+  setUser: (user: { id: string; email: string; name: string } | null) => void;
+  logout: () => void;
 }
 
 export const useStore = create<AppState>()(
@@ -66,8 +71,11 @@ export const useStore = create<AppState>()(
       notes: '',
       generatedIeltsTest: null,
       targetExamType: 'IELTS',
+      user: null,
 
       setView: (view, lessonId) => set({ currentView: view, activeLessonId: lessonId || null }),
+      setUser: (user) => set({ user }),
+      logout: () => set({ user: null, currentView: 'home' }),
       
       completeLesson: (lessonId, earnedXp) => set((state) => {
         const isNewCompletion = !state.completedLessons.includes(lessonId);

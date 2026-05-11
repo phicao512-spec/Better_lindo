@@ -16,6 +16,7 @@ import { FillBlankExam } from './pages/FillBlankExam';
 import { StrictExam } from './pages/StrictExam';
 import { Notepad } from './components/layout/Notepad';
 import { GenerateExam } from './pages/GenerateExam';
+import { Login } from './pages/Login';
 
 export default function App() {
   const { currentView } = useStore();
@@ -41,6 +42,7 @@ export default function App() {
           {currentView === 'fill-blank-exam' && <FillBlankExam />}
           {currentView === 'strict-exam' && <StrictExam />}
           {currentView === 'generate-exam' && <GenerateExam />}
+          {currentView === 'login' && <Login />}
         </div>
         
         {showNav && <div className="md:hidden"><BottomNav /></div>}
