@@ -1,9 +1,10 @@
 import { useStore } from "../store/useStore";
 import { Zap, Hexagon, UserCircle2, LogIn, LogOut } from "lucide-react";
 import { lessons } from "../data/lessons";
+import { auth } from "../lib/firebase";
 
 export function Profile() {
-  const { xp, streak, completedLessons, user, setView, logout } = useStore();
+  const { xp, streak, completedLessons, user, setView } = useStore();
 
   const totalWords = lessons.filter(l => completedLessons.includes(l.id)).reduce((acc, curr) => acc + curr.words.length, 0);
 
@@ -32,7 +33,7 @@ export function Profile() {
     <div className="pb-32 pt-8 px-4 max-w-lg mx-auto w-full">
       <div className="flex flex-col items-center mb-8 relative">
         <button
-          onClick={logout}
+          onClick={() => auth.signOut()}
           className="absolute top-0 right-0 p-3 bg-white border-2 border-slate-900 rounded-xl text-rose-500 hover:bg-rose-50 transition-colors shadow-[2px_2px_0px_0px_rgba(15,23,42,1)]"
           title="Đăng xuất"
         >

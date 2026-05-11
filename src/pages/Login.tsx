@@ -2,9 +2,16 @@ import React, { useState } from 'react';
 import { useStore } from '../store/useStore';
 import { Mail, Lock, User, LogIn, ArrowRight, Chrome } from 'lucide-react';
 import * as motion from 'motion/react-client';
+import { auth, googleProvider } from '../lib/firebase';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signInWithPopup,
+  updateProfile 
+} from 'firebase/auth';
 
 export function Login() {
-  const { setView, setUser } = useStore();
+  const { setView } = useStore();
   const [isRegister, setIsRegister] = useState(false);
   
   const [email, setEmail] = useState('');
@@ -12,140 +19,249 @@ export function Login() {
   const [name, setName] = useState('');
   
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password || (isRegister && !name)) return;
     
     setIsLoading(true);
-    // Mock login delay
-    setTimeout(() => {
-      setUser({
-        id: Math.random().toString(36).substr(2, 9),
-        email,
-        name: isRegister ? name : email.split('@')[0],
-      });
-      setIsLoading(false);
+    setError('');
+
+    try {
+      if (isRegister) {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: name });
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
+      }
       setView('profile');
-    }, 1000);
+    } catch (err: any) {
+      console.error(err);
+      let msg = 'Có lỗi xảy ra. Vui lòng thử lại.';
+      if (err.code === 'auth/user-not-found') msg = 'Email không tồn tại.';
+      if (err.code === 'auth/wrong-password') msg = 'Mật khẩu không chính xác.';
+      if (err.code === 'auth/email-already-in-use') msg = 'Email đã được sử dụng.';
+      setError(msg);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    setError('');
+    try {
+      await signInWithPopup(auth, googleProvider);
+      setView('profile');
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'Lỗi đăng nhập Google.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="pb-32 pt-8 px-4 max-w-md mx-auto w-full min-h-screen flex flex-col justify-center">
+    <div className="relative min-h-[100dvh] bg-[#F1F5F9] text-slate-900 antialiased overflow-hidden flex flex-col justify-center px-4 py-12">
+      {/* Background Decorations */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0],
+            x: [0, 50, 0],
+            y: [0, -30, 0] 
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-200/50 rounded-full blur-3xl" 
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+            rotate: [0, -120, 0],
+            x: [0, -60, 0],
+            y: [0, 40, 0] 
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute -bottom-24 -right-24 w-[32rem] h-[32rem] bg-fuchsia-200/40 rounded-full blur-3xl" 
+        />
+        <motion.div 
+          animate={{ 
+            opacity: [0.2, 0.5, 0.2],
+            scale: [0.8, 1.1, 0.8],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-cyan-100/30 rounded-full blur-[100px]" 
+        />
+      </div>
+
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white border-4 border-slate-900 shadow-[12px_12px_0px_0px_rgba(15,23,42,1)] rounded-[32px] p-8"
+        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 bg-white/80 backdrop-blur-xl border-4 border-slate-900 shadow-[16px_16px_0px_0px_rgba(15,23,42,1)] rounded-[40px] p-8 md:p-10 max-w-md mx-auto w-full"
       >
-        <div className="flex justify-center mb-8">
-          <div className="w-20 h-20 bg-indigo-100 border-4 border-slate-900 rounded-3xl shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] flex items-center justify-center -mt-16 transform rotate-3">
-            <LogIn size={40} className="text-indigo-600" />
-          </div>
+        <div className="flex justify-center mb-10">
+          <motion.div 
+            whileHover={{ rotate: 12, scale: 1.1 }}
+            className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-indigo-600 border-4 border-slate-900 rounded-[32px] shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] flex items-center justify-center -mt-20 transform rotate-6"
+          >
+            <LogIn size={48} className="text-white" />
+          </motion.div>
         </div>
 
-        <h1 className="text-3xl font-black text-center text-slate-900 mb-2">
-          {isRegister ? 'Tạo tài khoản' : 'Chào mừng trở lại!'}
-        </h1>
-        <p className="text-center text-slate-500 font-bold mb-8">
-          {isRegister ? 'Bắt đầu hành trình học tập ngay hôm nay.' : 'Tiếp tục rèn luyện và nâng cao trình độ.'}
-        </p>
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <h1 className="text-4xl font-black text-center text-slate-900 mb-3 tracking-tight">
+            {isRegister ? 'Tạo tài khoản' : 'Chào mừng bạn!'}
+          </h1>
+          <p className="text-center text-slate-500 font-bold mb-10 text-lg leading-tight">
+            {isRegister ? 'Khám phá thế giới ngôn ngữ cùng LingoLearn.' : 'Tiếp tục hành trình chinh phục tiếng Anh.'}
+          </p>
+        </motion.div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-8 p-4 bg-rose-50 border-4 border-rose-500 rounded-2xl text-rose-600 text-sm font-black flex items-center gap-3 shadow-[4px_4px_0px_0px_rgba(244,63,94,0.2)]"
+          >
+            <div className="w-6 h-6 bg-rose-500 rounded-full flex items-center justify-center shrink-0">
+              <span className="text-white text-xs font-black">!</span>
+            </div>
+            {error}
+          </motion.div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
           {isRegister && (
-            <div>
-              <label className="block text-sm font-black text-slate-900 mb-2">Họ và tên</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <User size={20} className="text-slate-400" />
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <label className="block text-sm font-black text-slate-900 mb-2 ml-1 uppercase tracking-wider">Họ và tên</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none transition-colors group-focus-within:text-indigo-500">
+                  <User size={22} className="text-slate-400" />
                 </div>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="block w-full pl-12 pr-4 py-4 bg-slate-50 border-4 border-slate-900 rounded-2xl text-slate-900 font-bold focus:outline-none focus:ring-0 focus:bg-white transition-colors"
-                  placeholder="Nguyễn Văn A"
+                  className="block w-full pl-14 pr-5 py-5 bg-slate-50 border-4 border-slate-900 rounded-[24px] text-slate-900 font-bold focus:outline-none focus:ring-0 focus:bg-white focus:border-indigo-500 transition-all shadow-[4px_4px_0px_0px_rgba(15,23,42,0.05)]"
+                  placeholder="Nhập tên của bạn..."
                   required
                 />
               </div>
-            </div>
+            </motion.div>
           )}
 
-          <div>
-            <label className="block text-sm font-black text-slate-900 mb-2">Email</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Mail size={20} className="text-slate-400" />
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <label className="block text-sm font-black text-slate-900 mb-2 ml-1 uppercase tracking-wider">Email học tập</label>
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none transition-colors group-focus-within:text-indigo-500">
+                <Mail size={22} className="text-slate-400" />
               </div>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full pl-12 pr-4 py-4 bg-slate-50 border-4 border-slate-900 rounded-2xl text-slate-900 font-bold focus:outline-none focus:ring-0 focus:bg-white transition-colors"
-                placeholder="email@example.com"
+                className="block w-full pl-14 pr-5 py-5 bg-slate-50 border-4 border-slate-900 rounded-[24px] text-slate-900 font-bold focus:outline-none focus:ring-0 focus:bg-white focus:border-indigo-500 transition-all shadow-[4px_4px_0px_0px_rgba(15,23,42,0.05)]"
+                placeholder="example@gmail.com"
                 required
               />
             </div>
-          </div>
+          </motion.div>
 
-          <div>
-            <label className="block text-sm font-black text-slate-900 mb-2">Mật khẩu</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Lock size={20} className="text-slate-400" />
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <label className="block text-sm font-black text-slate-900 mb-2 ml-1 uppercase tracking-wider">Mật khẩu bảo mật</label>
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none transition-colors group-focus-within:text-indigo-500">
+                <Lock size={22} className="text-slate-400" />
               </div>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full pl-12 pr-4 py-4 bg-slate-50 border-4 border-slate-900 rounded-2xl text-slate-900 font-bold focus:outline-none focus:ring-0 focus:bg-white transition-colors"
+                className="block w-full pl-14 pr-5 py-5 bg-slate-50 border-4 border-slate-900 rounded-[24px] text-slate-900 font-bold focus:outline-none focus:ring-0 focus:bg-white focus:border-indigo-500 transition-all shadow-[4px_4px_0px_0px_rgba(15,23,42,0.05)]"
                 placeholder="••••••••"
                 required
                 minLength={6}
               />
             </div>
-          </div>
+          </motion.div>
 
-          <button
+          <motion.button
             type="submit"
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 mt-6 py-4 px-6 bg-indigo-500 text-white border-4 border-slate-900 rounded-2xl font-black text-lg shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full flex items-center justify-center gap-3 mt-8 py-5 px-6 bg-indigo-500 text-white border-4 border-slate-900 rounded-[24px] font-black text-xl shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] hover:bg-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? 'Đang xử lý...' : (isRegister ? 'Đăng ký ngay' : 'Đăng nhập')}
-            {!isLoading && <ArrowRight size={20} />}
-          </button>
+            {isLoading ? 'Đang xác thực...' : (isRegister ? 'Bắt đầu ngay' : 'Đăng nhập')}
+            {!isLoading && <ArrowRight size={24} />}
+          </motion.button>
         </form>
 
-        <div className="mt-6">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+          className="mt-8"
+        >
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t-2 border-slate-200"></div>
+              <div className="w-full border-t-4 border-slate-100"></div>
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-slate-500 font-bold">HOẶC</span>
+            <div className="relative flex justify-center text-xs">
+              <span className="px-4 bg-white text-slate-400 font-black tracking-widest uppercase">Hoặc nhanh hơn với</span>
             </div>
           </div>
 
-          <button
+          <motion.button
             type="button"
-            className="w-full flex items-center justify-center gap-3 mt-6 py-4 px-6 bg-white border-4 border-slate-900 rounded-2xl font-black text-slate-900 text-lg shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] hover:bg-slate-50 hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none transition-all"
+            onClick={handleGoogleLogin}
+            disabled={isLoading}
+            whileHover={{ y: -4, shadow: "8px 8px 0px 0px rgba(15,23,42,1)" }}
+            className="w-full flex items-center justify-center gap-4 mt-8 py-5 px-6 bg-white border-4 border-slate-900 rounded-[24px] font-black text-slate-900 text-xl shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] transition-all disabled:opacity-50"
           >
-            <Chrome size={24} className="text-rose-500" />
-            Tiếp tục với Google
-          </button>
-        </div>
+            <div className="bg-rose-50 p-2 rounded-xl border-2 border-rose-500 shadow-[2px_2px_0px_0px_rgba(244,63,94,0.3)]">
+              <Chrome size={28} className="text-rose-500" />
+            </div>
+            Google Account
+          </motion.button>
+        </motion.div>
 
-        <div className="mt-8 text-center">
-          <p className="text-slate-600 font-bold">
-            {isRegister ? 'Đã có tài khoản?' : 'Chưa có tài khoản?'}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mt-10 text-center"
+        >
+          <p className="text-slate-500 font-bold text-lg">
+            {isRegister ? 'Đã là thành viên?' : 'Chưa có tài khoản?'}
             <button
               type="button"
               onClick={() => setIsRegister(!isRegister)}
-              className="ml-2 text-indigo-600 font-black hover:underline"
+              className="ml-3 text-indigo-600 font-black hover:text-indigo-700 hover:underline decoration-4 underline-offset-4 transition-all"
             >
-              {isRegister ? 'Đăng nhập' : 'Đăng ký'}
+              {isRegister ? 'Đăng nhập' : 'Tham gia ngay'}
             </button>
           </p>
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );

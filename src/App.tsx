@@ -18,8 +18,48 @@ import { Notepad } from './components/layout/Notepad';
 import { GenerateExam } from './pages/GenerateExam';
 import { Login } from './pages/Login';
 
+import { useState, useEffect } from 'react';
+import { auth } from './lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { Loader2 } from 'lucide-react';
+
 export default function App() {
-  const { currentView } = useStore();
+  const { currentView, setUser, user } = useStore();
+  const [authLoading, setAuthLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setUser({
+          id: firebaseUser.uid,
+          email: firebaseUser.email || '',
+          name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Người dùng',
+        });
+      } else {
+        setUser(null);
+      }
+      setAuthLoading(false);
+    });
+    return () => unsubscribe();
+  }, [setUser]);
+
+  if (authLoading) {
+    return (
+      <div className="h-screen w-screen bg-[#F1F5F9] flex flex-col items-center justify-center">
+        <Loader2 className="w-12 h-12 text-indigo-600 animate-spin mb-4" />
+        <p className="text-slate-900 font-black text-xl">LingoLearn đang tải...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="h-[100dvh] bg-[#F1F5F9] text-slate-900 antialiased overflow-y-auto">
+        <Login />
+      </div>
+    );
+  }
+
   const showNav = ['home', 'profile', 'practice', 'create'].includes(currentView);
 
   return (
